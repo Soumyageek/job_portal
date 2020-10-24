@@ -28,6 +28,7 @@ class SearchView(ListView):
     model = Job
     template_name = 'jobs/search.html'
     context_object_name = 'jobs'
+    extra_context = {'find_active':'active'}
 
     def get(self, request):
         context = {'find_active':'active'}

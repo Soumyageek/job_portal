@@ -64,7 +64,7 @@
                                 <a href="{% url 'jobs:search-jobs' %}" class="nav-link">Find Jobs<span class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item {{applied_active}}">
-                                <a href="#" class="nav-link">Applied Jobs<span class="sr-only">(current)</span></a>
+                                <a href="{%url 'jobs:applied-jobs'%}" class="nav-link">Applied Jobs<span class="sr-only">(current)</span></a>
                             </li>
                         {% endif %}
                         {% if request.user.is_employer %}

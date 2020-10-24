@@ -33,4 +33,4 @@ class JobDetailsView(DetailView):
         #     del(apps[:3])
         #     context.append(lst)
 
-        return render(request, 'jobs/details.html', {'context':apps, 'job':job})
+        return render(request, 'jobs/details.html', {'context':apps, 'job':job, 'applied_active':'active','posted_active':'active'})

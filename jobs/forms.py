@@ -82,4 +82,4 @@ class CreateJobForm(ModelForm):
 class ApplyJobForm(ModelForm):
     class Meta:
         model = Applicant
-        fields = ('job',)
+        fields = ('user','job')

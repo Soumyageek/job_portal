@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block title %}
-    Home
+    Applied Jobs
 {% endblock %}
 
 {% block content %}
@@ -9,8 +9,8 @@
     {%comment%}
     <section class="" style="background:#ffffff;  margin-top: 0px;">
         <div class="container">
-            <h3 class="" style="margin-bottom: 0px; margin-top: 0px;">Jobs Posted</h3>
-            <p class="text-muted">Jobs you have posted.</p>
+            <h3 class="" style="margin-bottom: 0px; margin-top: 0px;">Applied Jobs</h3>
+            <p class="text-muted">Jobs you have applied for.</p>
             {% for jobs in context %}
             <div class="row">
                 {% for job in jobs %}
@@ -35,7 +35,7 @@
 
 <section class="mt-0">
     <div class="container">
-        <h3 class="heading ml-0">Jobs You Have Applied For</h3>
+        <h3 class="heading ml-0">Applied Jobs</h3>
         <p class="text-muted"></p>
         {% for job in jobs %}
             <div class="job-listing  ">
@@ -48,7 +48,7 @@
                             </div>
                             <div class="col-10">
                                 <h4 class="job__title">
-                                        <a href="#">{{ job.job_title }}</a></h4>
+                                        <a href="{%url 'jobs:job-details' job.id%}">{{ job.job_title }}</a></h4>
                                 <p class="job__company">
                                     {{ job.company_name }}
                                 </p>
