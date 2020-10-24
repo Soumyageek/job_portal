@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+
+    
+    <section class="" style="background:#ffffff;  margin-top: 0px;">
+        <div class="container">
+            <h3 class="" style="margin-bottom: 0px; margin-top: 0px;">Job Applications</h3>
+            <p class="text-muted">Jobs you have applied for.</p>
+            <div class="row">
+                <a href="#">
+                    <div class="mx-auto col-md-3">
+                        {% for job in jobs %}
+                        <div class="card", style="width: 18rem; border:10px;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{job.job_title}}</h5>
+                                <h6 class="card-subtitle mb-2 text-mutes">Royce Ent.</h6>
+                                <p class="card-text" style="font-size:12px; color:black;">Min. 3 years of experien...</p>
+                                <a>Rejected</a>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </a>
+                <div class="mx-auto col-md-3">
+                     {% for job in jobs %}
+                        <div class="card", style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Junior Engineer</h5>
+                                <h6 class="card-subtitle mb-2 text-mutes">Ruble Inc.</h6>
+                                <p class="card-text mb-0" style="font-size:12px;">0-1 years of experience in web...</p>
+                                <p class="card-text">Submitted</p>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="mx-auto col-md-3">
+                     {% for job in jobs %}
+                        <div class="card", style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Python Developer</h5>
+                                <h6 class="card-subtitle mb-2 text-mutes">Reg Infotech</h6>
+                                <p class="card-text" style="font-size:12px;">Expertise in Python scrip...</p>
+                                <a href="#">Accepted</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="mx-auto col-md-3">
+                     {% for job in jobs %}
+                        <div class="card", style="width: 18rem; border:10px;">
+                            <div class="card-body">
+                                <h5 class="card-title">{{job.job_title}}</h5>
+                                <h6 class="card-subtitle mb-2 text-mutes">Royce Ent.</h6>
+                                <p class="card-text" style="font-size:12px;">Min. 3 years of experien...</p>
+                                <a href="#">Pending Approval</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="mx-auto col-md-3">
+                     {% for job in jobs %}
+                        <div class="card", style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Junior Engineer</h5>
+                                <h6 class="card-subtitle mb-2 text-mutes">Ruble Inc.</h6>
+                                <p class="card-text" style="font-size:12px;">0-1 years of experience in web...</p>
+                                <a href="#">Submitted</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="mx-auto col-md-3">
+                     {% for job in jobs %}
+                        <div class="card", style="width: 18rem;">
+                            <div class="card-body">
+                                <h5 class="card-title">Python Developer</h5>
+                                <h6 class="card-subtitle mb-2 text-mutes">Reg Infotech</h6>
+                                <p class="card-text" style="font-size:12px;">Expertise in Python scrip...</p>
+                                <a href="#">Accepted</a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+{% endblock %}

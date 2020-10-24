@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags%}
+
+{% block title %}
+    Employee Register
+{% endblock %}
+
+{% block content %}
+
+    <div class="container d-flex flex-column">
+        <div class="row  justify-content-between no-gutters min-vh-100">
+            <div class="col-12 col-md-6 align-self-stretch d-none d-md-block ">
+
+                <!-- Image -->
+                <div class="vw-50 h-100 float-right bg-cover"
+                     style="background-image: url({% static 'img/featured1.jpg' %});"></div>
+
+            </div>
+            <div class="col-12 col-md-5  py-1">
+                <div>
+                    <h3 class="heading mt-6">Register</h3>
+                    <p class="text-center text-muted">Register As Employee</p>
+                    {%comment%}{% if form.errors %}
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger alert-dismissable">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger alert-dismissable">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endif %} {%endcomment%}
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        {{form|crispy}}
+                        {%comment%}
+                        {% for field in form %}
+
+                        {% if form.errors %}
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <div class="alert alert-danger alert-dismissable">
+                                    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                    <strong>{{ error|escape }}</strong>
+                                </div>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <div class="alert alert-danger alert-dismissable">
+                                <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+                                <strong>{{ error|escape }}</strong>
+                            </div>
+                        {% endfor %}
+                    {% endif %}
+
+
+                             {% if field.name == 'user_gender' %}
+
+                                <div class="form-group">
+                                    <label for="gender">Gender</label>
+                                    <br>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="user_gender" id="male gender"
+                                               value="male">
+                                        <label class="form-check-label" for="male">Male</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input class="form-check-input" type="radio" name="user_gender" id="female"
+                                               value="female">
+                                        <label class="form-check-label" for="female">Female</label>
+                                    </div>
+                                </div>
+
+                            {% else %}
+                                <div class="form-group">
+                                    <label for="id_{{ field.name }}">{{ field.label }}</label>
+                                    <input type="{{ field.field.widget.input_type }}"
+                                           class="form-control"
+                                           name="{{ field.name }}"
+                                           id="id_{{ field.name }}"
+                                           placeholder="{{ field.field.widget.attrs.placeholder }}">
+                                </div>
+                            {% endif %}
+                        {% endfor %} {%endcomment%}
+                        <div class="text-center mb-2">
+                            <button type="submit" class="btn btn-outline-white-primary"><i class="fa fa-sign-in"></i>
+                                Register
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div> <!-- / .row -->
+    </div>
+
+{% endblock %}

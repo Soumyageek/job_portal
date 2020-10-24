@@ -1,0 +1,41 @@
+h1, h2, h3, h4, h5, h6, .h1, .h2, .h3, .h4, .box-simple h3, .box-image .name h3, .box-image-text .top .name h3, .box-image-text .top .name h4, .h5, .h6 {
+    margin-bottom: 1rem;
+    font-family: "avenir", Helvetica, Arial,sans-serif;
+    font-weight: 700;
+    line-height: 1.2;
+    color: #555;
+    /*text-transform: uppercase;*/
+    letter-spacing: 0.1em;
+}
+
+
+.navbar ul.navbar-nav>li>a:not(.navbar-btn) {
+    color: #fff;
+    font-weight: 300;
+    font-family: "avenir",Helvetica,Arial,sans-serif;
+    font-size: 0.8rem;
+}
+
+
+.job-form-section.job-form-section--image {
+    background: center center url(../img/featured1.jpg) no-repeat;
+    background-size: cover;
+    height: 100vh;
+}
+
+.navbar {
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    background: deepskyblue;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+}
+
+.btn{
+        padding: .375rem .75rem;
+    font-size: .875rem;
+}
+
+.img-logo{
+    height: 70px;
+}
