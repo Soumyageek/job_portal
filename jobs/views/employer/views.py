@@ -10,13 +10,14 @@ class PostedJobs(LoginRequiredMixin, ListView):
     def get(self, request):
         context = []
         jobs = list(Job.objects.filter(user=self.request.user))
+        jobs1 = Job.objects.filter(user=self.request.user)
 
         for _ in range(1+(len(jobs)//3)):
             lst = jobs[:3]
             del(jobs[:3])
             context.append(lst)
 
-        return render(request, 'accounts/employer/posted-jobs.html', {'context':context})
+        return render(request, 'accounts/employer/posted-jobs.html', {'context':context, 'jobs':jobs1, 'posted_active':'active'})
 
 
 class JobDetailsView(DetailView):
@@ -24,7 +25,7 @@ class JobDetailsView(DetailView):
 
     def get(self, request, job_id):
         context = []
-        job = self.model.objects.filter(job=job_id).first().job
+        job = Job.objects.filter(id=job_id).first()
         apps = list(self.model.objects.filter(job=job_id))
 
         # for _ in range(1+(len(apps)//3)):
@@ -32,5 +33,4 @@ class JobDetailsView(DetailView):
         #     del(apps[:3])
         #     context.append(lst)
 
-
-        return render(request, 'accounts/employer/job-applications.html', {'context':apps, 'job':job})
+        return render(request, 'jobs/details.html', {'context':apps, 'job':job})

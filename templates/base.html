@@ -52,9 +52,11 @@
             </button>
             <div id="navbarSupportedContent" class="collapse navbar-collapse">
                 <ul class="navbar-nav ml-auto">
+                    {%comment%}
                     <li class="nav-item {{home_active}}">
-                        <a href="/" class="nav-link">Home <span class="sr-only">(current)</span></a>
+                        <a href="{% url 'accounts:login' %}" class="nav-link">Home <span class="sr-only">(current)</span></a>
                     </li>
+                    {%endcomment%}
 
                     {% if request.user.is_authenticated %}
                         {% if request.user.is_employee %}
@@ -67,10 +69,10 @@
                         {% endif %}
                         {% if request.user.is_employer %}
                             <li class="nav-item {{post_active}}">
-                                <a href="#" class="nav-link">Post a Job<span class="sr-only">(current)</span></a>
+                                <a href="{%url 'jobs:post-job'%}" class="nav-link">Post a Job<span class="sr-only">(current)</span></a>
                             </li>
                             <li class="nav-item {{posted_active}}">
-                                <a href="#" class="nav-link">Posted Jobs<span class="sr-only">(current)</span></a>
+                                <a href="{%url 'jobs:posted-jobs'%}" class="nav-link">Posted Jobs<span class="sr-only">(current)</span></a>
                             </li>
                         {% endif %}
                         <li class="nav-item" style="color: #fff">
@@ -82,7 +84,7 @@
                              <a href="{% url 'accounts:logout' %}" class="btn navbar-btn  mb-5 mb-lg-0">Logout<i class="fa fa-sign-out"></i></a>
                         </li>
                     {% else %}
-                        <li class="nav-item dropdown">
+                        <li class="nav-item dropdown {{register_active}}">
                             <a id="pages" href="#" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
                                class="nav-link dropdown-toggle"><i class="fa fa-users"></i>Register
                             </a>

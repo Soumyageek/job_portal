@@ -83,16 +83,18 @@ class EmployeeRegistrationForm(UserCreationForm):
         #     'first_name':forms.TextInput(attrs={'class':'form-control'})
         # }
 
-    def clean_gender(self):
-        gender = self.cleaned_data.get('gender')
-        if not gender:
-            raise forms.ValidationError("Gender is required")
-        return gender
+    # def clean_gender(self):
+    #     gender = self.cleaned_data.get('gender')
+    #     if not gender:
+    #         raise forms.ValidationError("Gender is required")
+    #     return gender
 
     def save(self, commit=True):
         user = super(UserCreationForm, self).save(commit=False)
         user.is_employee = True
         user.is_employer = False
+        user.company_name = "NA"
+        user.company_address = "NA"
         if commit:
             user.save()
         return user
@@ -102,6 +104,9 @@ class EmployerRegistrationForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
         super(EmployerRegistrationForm, self).__init__(*args, **kwargs)
+
+        self.fields['password1'] = forms.CharField(label='Password',widget=forms.PasswordInput)
+
         self.fields['first_name'].label = "First Name"
         self.fields['last_name'].label = "Last Name"
         self.fields['password1'].label = "Password"
@@ -164,6 +169,7 @@ class EmployerRegistrationForm(UserCreationForm):
         user = super(UserCreationForm, self).save(commit=False)
         user.is_employer = True
         user.is_employee = False
+        user.user_link = "NA"
         if commit:
             user.save()
         return user

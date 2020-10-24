@@ -9,11 +9,12 @@ from accounts.models import User
 class RegisterEmployeeView(CreateView):
     model = User
     form_class = EmployeeRegistrationForm
-    template_name = 'accounts/employee/register.html'
+    template_name = 'accounts/employee/register1.html'
     success_url = '/'
 
     extra_context = {
-        'title': 'Register'
+        'title': 'Register',
+        'register_active':'active'
     }
 
     def dispatch(self, request, *args, **kwargs):
@@ -42,7 +43,8 @@ class RegisterEmployerView(CreateView):
     success_url = '/'
 
     extra_context = {
-        'title': 'Register'
+        'title': 'Register',
+        'register_active':'active'
     }
 
     def dispatch(self, request, *args, **kwargs):
@@ -68,7 +70,7 @@ class LoginView(FormView):
     """
         Provides the ability to login as a user with an email and password
     """
-    success_url = '/'
+    success_url = 'landing'
     form_class = UserLoginForm
     template_name = 'accounts/login.html'
 
@@ -92,7 +94,7 @@ class LoginView(FormView):
 
     def form_valid(self, form):
         auth.login(self.request, form.get_user())
-        return HttpResponseRedirect(self.get_success_url())
+        return redirect('/landing')
 
     def form_invalid(self, form):
         """If the form is invalid, render the invalid form."""
@@ -109,3 +111,12 @@ class LogoutView(RedirectView):
         auth.logout(request)
         messages.success(request, 'You are now logged out')
         return super(LogoutView, self).get(request, *args, **kwargs)
+
+def landing_page(request):
+    if request.user.is_authenticated:
+        if request.user.is_employee:
+            return redirect('jobs:search-jobs')
+        else:
+            return redirect('jobs:post-job')
+    else:
+        return redirect('accounts:login')
