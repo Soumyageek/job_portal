@@ -1,9 +1,19 @@
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.shortcuts import render, redirect
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.contrib import messages
 from jobs.models import Job, Applicant
 from  jobs.forms import CreateJobForm
+
+
+class IsUserEmployee(UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.is_employee
+
+
+class IsUserEmployer(UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.is_employer
 
 
 class PostedJobs(LoginRequiredMixin, ListView):
@@ -22,7 +32,7 @@ class PostedJobs(LoginRequiredMixin, ListView):
         return render(request, 'accounts/employer/posted-jobs.html', {'context':context, 'jobs':jobs1, 'posted_active':'active'})
 
 
-class CreateJob(LoginRequiredMixin, CreateView):
+class CreateJob(LoginRequiredMixin, IsUserEmployer, CreateView):
     model = Job
     form_class = CreateJobForm
     template_name = 'jobs/employee/create-job.html'
@@ -56,17 +66,12 @@ class CreateJob(LoginRequiredMixin, CreateView):
             return render(request, 'jobs/employee/create-job.html', {'form': form, 'post_active':'active'})
 
 
-class JobDetailsView(DetailView):
+class JobDetailsView(LoginRequiredMixin, DetailView):
     model = Applicant
 
     def get(self, request, job_id):
         context = []
         job = Job.objects.filter(id=job_id).first()
         apps = list(self.model.objects.filter(job=job_id))
-
-        # for _ in range(1+(len(apps)//3)):
-        #     lst = apps[:3]
-        #     del(apps[:3])
-        #     context.append(lst)
 
         return render(request, 'jobs/details.html', {'apps':apps, 'job':job, 'applied_active':'active','posted_active':'active'})

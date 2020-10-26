@@ -8,9 +8,10 @@ from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse_lazy
 from django.contrib import messages
 from jobs.forms import CreateJobForm, ApplyJobForm
+from ..employer.views import IsUserEmployee
 
 
-class AppliedJobs(LoginRequiredMixin, View):
+class AppliedJobs(LoginRequiredMixin, IsUserEmployee, View):
     model = Applicant
     def get(self, request):
         if request.user.is_employee:
@@ -62,7 +63,7 @@ class AppliedJobs(LoginRequiredMixin, View):
 #         return super().form_valid(form)
 
 
-class ApplyJobView(LoginRequiredMixin, CreateView):
+class ApplyJobView(LoginRequiredMixin, IsUserEmployee, CreateView):
     model = Applicant
 
     def post(self, request, job_id):
