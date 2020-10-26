@@ -30,15 +30,18 @@ class SearchView(ListView):
     context_object_name = 'jobs'
     extra_context = {'find_active':'active'}
 
-    def get(self, request):
+    def post(self, request):
         context = {'find_active':'active'}
-        print(request.GET)
-        if request.GET.get('location') or request.GET.get('position'):
-            jobs = self.model.objects.filter(job_location__contains=self.request.GET['location'],
-                                      job_title__contains=self.request.GET['position'])
-            context = {'jobs':jobs, 'find_active':'active'}
+        if request.POST.get('location') or request.POST.get('position'):
+            jobs = self.model.objects.filter(job_location__contains=self.request.POST['location'],
+                                      job_title__contains=self.request.POST['position']).order_by('-created_at')
+            list_header = 'Jobs matching your serch'
+            context = {'jobs':jobs, 'find_active':'active', 'list_header':list_header}
         return render(request, 'jobs/search.html', context)
 
-    def get_queryset(self):
-        return self.model.objects.filter(location__contains=self.request.GET['location'],
-                                         title__contains=self.request.GET['position'])
+    def get(self, request):
+        context = {'find_active':'active'}
+        jobs = self.model.objects.all()[:10]
+        list_header = 'Jobs for you'
+        context.update({'jobs':jobs, 'list_header':list_header})
+        return render(request, 'jobs/search.html', context)

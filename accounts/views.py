@@ -117,6 +117,6 @@ def landing_page(request):
         if request.user.is_employee:
             return redirect('jobs:search-jobs')
         else:
-            return redirect('jobs:post-job')
+            return redirect('jobs:posted-jobs')
     else:
         return redirect('accounts:login')

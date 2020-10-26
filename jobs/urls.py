@@ -1,8 +1,8 @@
 from django.urls import path, include
 
 from .views.home import HomeView, SearchView
-from .views.employer.views import PostedJobs, JobDetailsView
-from .views.employee.views import CreateJob, ApplyJobView, AppliedJobs
+from .views.employer.views import PostedJobs, JobDetailsView, CreateJob
+from .views.employee.views import ApplyJobView, AppliedJobs
 from accounts.views import LoginView, landing_page
 
 app_name = "jobs"
