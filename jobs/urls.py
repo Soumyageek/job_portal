@@ -1,6 +1,6 @@
 from django.urls import path, include
 
-from .views.home import HomeView, SearchView
+from .views.home import SearchView
 from .views.employer.views import PostedJobs, JobDetailsView, CreateJob
 from .views.employee.views import ApplyJobView, AppliedJobs
 from accounts.views import LoginView, landing_page

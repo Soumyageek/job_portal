@@ -17,7 +17,7 @@ class User(AbstractUser):
     # })
     is_employee = models.BooleanField(default=False)
     is_employer = models.BooleanField(default=False)
-    user_gender = models.CharField(max_length=10, choices=GENDER_CHOICES)
+    user_gender = models.CharField(max_length=10, choices=GENDER_CHOICES, blank=True, null=True)
     user_link = models.CharField(max_length=200, default="")
     user_skills = models.TextField(null=True, default="")
     email = models.EmailField(unique=True, blank=False,

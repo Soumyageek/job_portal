@@ -156,12 +156,6 @@ class EmployerRegistrationForm(UserCreationForm):
                 'placeholder': 'Confirm Password',
             }
         )
-        self.fields['user_gender'].widget.attrs.update(
-            {
-                'placeholder': 'Select Gender',
-                'size':1
-            }
-        )
 
     class Meta:
         model = User
