@@ -32,6 +32,6 @@ class ApplyJobView(LoginRequiredMixin, IsUserEmployee, CreateView):
         if form.is_valid():
             form.save()
             messages.success(request, 'You have successfully applied for this job.')
-            return redirect('jobs:job-details/', job_id)
+            return redirect('jobs:job-details', job_id=job_id)
         else:
-            return redirect('jobs:job-details/', job_id)
+            return redirect('jobs:job-details', job_id=job_id)

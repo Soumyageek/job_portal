@@ -58,6 +58,12 @@ class EmployeeRegistrationForm(UserCreationForm):
                 'placeholder': 'Enter URL for Linkedin',
             }
         )
+        self.fields['user_gender'].widget.attrs.update(
+            {
+                'placeholder': 'Select Gender',
+                'size': 1
+            }
+        )
 
     # Validations for required fields in registration form
     class Meta:
@@ -148,6 +154,12 @@ class EmployerRegistrationForm(UserCreationForm):
         self.fields['password2'].widget.attrs.update(
             {
                 'placeholder': 'Confirm Password',
+            }
+        )
+        self.fields['user_gender'].widget.attrs.update(
+            {
+                'placeholder': 'Select Gender',
+                'size':1
             }
         )
 

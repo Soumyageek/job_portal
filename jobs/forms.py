@@ -37,6 +37,8 @@ class CreateJobForm(ModelForm):
         self.fields['type'].widget.attrs.update(
             {
                 'placeholder': 'Enter the Job Type',
+                # 'style':{'font-size':'50px'}
+                'size':1
             }
         )
         self.fields['job_category'].widget.attrs.update(

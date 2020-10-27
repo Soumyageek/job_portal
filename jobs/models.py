@@ -4,8 +4,8 @@ from django.utils import timezone
 from accounts.models import User
 
 JOB_TYPE = (
-    ('1', "Full_Time"),
-    ('2', "Part_Time"),
+    ('1', "Full Time"),
+    ('2', "Part Time"),
     ('3', "Intern"),
 )
 
