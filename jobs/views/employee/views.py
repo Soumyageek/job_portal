@@ -33,8 +33,8 @@ class ApplyJobView(LoginRequiredMixin, IsUserEmployee, CreateView):
         if form.is_valid():
             form.save()
             application=Applicant.objects.filter(job=Job.objects.get(id=job_id), user=request.user).first()
-            score = scrape_person.get_score(skills_required = Job.objects.get(id=job_id).job_category)
-            application.score = score # Scarping and ML logic goes here.
+            score = scrape_person.get_score(skills_required = Job.objects.get(id=job_id).job_category, linkedin_url=request.user.user_link)
+            application.score = score # Scraping and ML logic goes here.
             application.save()
             messages.success(request, 'You have successfully applied for this job.')
             return redirect('jobs:job-details', job_id=job_id)

@@ -96,11 +96,13 @@ Job details
             <tr>
                 <td style="padding-right:150px"><h5>Name</h5></td>
                 <td><h5>Email ID</h5></td>
+                <td><h5>Profile Score</h5></td>
             </tr>
             {%for app in apps%}
             <tr>
                 <td>{{app.user.last_name}}, {{app.user.first_name}}</td>
                 <td>{{app.user.email}}</td>
+                <td><h6 style="align:center">{{app.score}}</h6></td>
             </tr>
             {%endfor%}
         </table>

@@ -7,7 +7,7 @@ import time
 email = "****"
 password = "***"
 
-def get_score(skills_required): # skills_required is a string to be converted to a list
+def get_score(skills_required, linkedin_url): # skills_required is a string to be converted to a list
     return 95
 
 #
