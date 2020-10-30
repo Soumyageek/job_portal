@@ -9,6 +9,7 @@ from django.urls import reverse_lazy
 from django.contrib import messages
 from jobs.forms import CreateJobForm, ApplyJobForm
 from ..employer.views import IsUserEmployee
+from scraping import scrape_person
 
 
 class AppliedJobs(LoginRequiredMixin, IsUserEmployee, View):
@@ -31,6 +32,10 @@ class ApplyJobView(LoginRequiredMixin, IsUserEmployee, CreateView):
         form = ApplyJobForm(data={'job':Job.objects.get(id=job_id), 'user':request.user})
         if form.is_valid():
             form.save()
+            application=Applicant.objects.filter(job=Job.objects.get(id=job_id), user=request.user).first()
+            score = scrape_person.get_score(skills_required = Job.objects.get(id=job_id).job_category)
+            application.score = score # Scarping and ML logic goes here.
+            application.save()
             messages.success(request, 'You have successfully applied for this job.')
             return redirect('jobs:job-details', job_id=job_id)
         else:

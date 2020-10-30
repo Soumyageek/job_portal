@@ -12,7 +12,7 @@ class CreateJobForm(ModelForm):
         self.fields['job_description'].label = "About the Job Profile"
         self.fields['job_location'].label = 'Location'
         self.fields['type'].label = 'Job Type'
-        self.fields['job_category'].label = 'Job Category'
+        self.fields['job_category'].label = 'Skills Required'
         self.fields['last_date'].label = 'Last Date to Apply'
         self.fields['company_name'].label = 'Company Name'
         self.fields['company_description'].label = 'About the Company'
@@ -43,7 +43,7 @@ class CreateJobForm(ModelForm):
         )
         self.fields['job_category'].widget.attrs.update(
             {
-                'placeholder': 'Enter the Job Category',
+                'placeholder': 'E.g. "Python, JavaScript, Ajax" (Comma separated)',
             }
         )
         self.fields['last_date'].widget.attrs.update(
