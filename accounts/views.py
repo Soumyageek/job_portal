@@ -4,6 +4,8 @@ from django.shortcuts import render, redirect
 from django.views.generic import CreateView, FormView, RedirectView
 from accounts.forms import *
 from accounts.models import User
+from jobs.views.employer.views import IsUserEmployer, IsUserEmployee
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 class RegisterEmployeeView(CreateView):
@@ -33,7 +35,63 @@ class RegisterEmployeeView(CreateView):
             user.save()
             return redirect('accounts:login')
         else:
-            return render(request, 'accounts/employee/register.html', {'form': form})
+            return render(request, 'accounts/employee/register.html', {'form': form, 'update_active':'active'})
+
+
+
+class UpdateEmployerView(LoginRequiredMixin, IsUserEmployer, FormView):
+    model = User
+    form_class = UpdateEmployerForm
+    template_name = 'accounts/employer/update.html'
+    success_url = '/'
+
+    extra_context = {'update_active':'active',}
+
+    def get(self, request):
+        user = self.request.user
+        form_class = self.form_class
+        form = form_class(instance=user)
+        return render(request, self.template_name, {'form': form, 'update_active':'active'})
+
+    def post(self, request, *args, **kwargs):
+
+        form = self.form_class(data=request.POST, instance=request.user)
+
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.save()
+            messages.success(request, 'The profile has been updated successfully!')
+            return redirect('accounts:login')
+        else:
+            return render(request, self.template_name, {'form': form})
+
+
+class UpdateEmployeeView(LoginRequiredMixin, IsUserEmployee, FormView):
+    model = User
+    form_class = UpdateEmployeeForm
+    template_name = 'accounts/employee/update.html'
+    success_url = '/'
+
+    extra_context = {'update_active':'active'}
+
+
+    def get(self, request):
+        user = self.request.user
+        form_class = self.form_class
+        form = form_class(instance=user)
+        return render(request, self.template_name, {'form': form, 'update_active':'active'})
+
+    def post(self, request, *args, **kwargs):
+
+        form = self.form_class(data=request.POST, instance=request.user)
+
+        if form.is_valid():
+            user = form.save(commit=False)
+            user.save()
+            messages.success(request, 'The profile has been updated successfully!')
+            return redirect('accounts:login')
+        else:
+            return render(request, self.template_name, {'form': form})
 
 
 class RegisterEmployerView(CreateView):

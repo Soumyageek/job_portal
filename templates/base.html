@@ -66,6 +66,9 @@
                             <li class="nav-item {{applied_active}}">
                                 <a href="{%url 'jobs:applied-jobs'%}" class="nav-link">Applied Jobs<span class="sr-only">(current)</span></a>
                             </li>
+                            <li class="nav-item {{update_active}}">
+                                <a href="{%url 'accounts:update-employee'%}" class="nav-link">Update Profile<span class="sr-only">(current)</span></a>
+                            </li>
                         {% endif %}
                         {% if request.user.is_employer %}
                             <li class="nav-item {{post_active}}">
@@ -73,6 +76,9 @@
                             </li>
                             <li class="nav-item {{posted_active}}">
                                 <a href="{%url 'jobs:posted-jobs'%}" class="nav-link">Posted Jobs<span class="sr-only">(current)</span></a>
+                            </li>
+                            <li class="nav-item {{update_active}}">
+                                <a href="{%url 'accounts:update-employer'%}" class="nav-link">Update Profile<span class="sr-only">(current)</span></a>
                             </li>
                         {% endif %}
                         <li class="nav-item" style="color: #fff">

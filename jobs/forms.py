@@ -1,6 +1,12 @@
-from django.forms import ModelForm
+from django.forms import ModelForm, DateField, SelectDateWidget
+from django import forms
+from django.contrib.admin.widgets import AdminDateWidget
 
 from .models import Job, Applicant
+
+
+class DateInput(forms.DateInput):
+    input_type = 'date'
 
 
 class CreateJobForm(ModelForm):
@@ -38,7 +44,7 @@ class CreateJobForm(ModelForm):
             {
                 'placeholder': 'Enter the Job Type',
                 # 'style':{'font-size':'50px'}
-                'size':1
+                'size': 1
             }
         )
         self.fields['job_category'].widget.attrs.update(
@@ -49,6 +55,8 @@ class CreateJobForm(ModelForm):
         self.fields['last_date'].widget.attrs.update(
             {
                 'placeholder': 'Enter the Last Date (MM/DD/YYYY)',
+                # 'size': 1
+                'class': 'picker'
             }
         )
         self.fields['company_name'].widget.attrs.update(
@@ -72,6 +80,12 @@ class CreateJobForm(ModelForm):
         exclude = ('user',)
         fields = ['job_title','job_description','job_location','type',
                   'job_category','last_date','company_name','company_description','job_website','job_salary']
+        widgets = {
+            # 'last_date': AdminDateWidget(
+            #     attrs={'class':'picker', 'autocomplete':'off'}
+            # )
+            'last_date': DateInput(),
+        }
 
     # def save(self, user, commit=True):
     #     job = super(CreateJobForm, self).save(commit=False)
@@ -84,4 +98,4 @@ class CreateJobForm(ModelForm):
 class ApplyJobForm(ModelForm):
     class Meta:
         model = Applicant
-        fields = ('user','job')
+        fields = ('user', 'job')

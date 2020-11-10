@@ -1,9 +1,23 @@
 {% extends 'base.html' %}
 {% load static %}
 {% load crispy_forms_tags %}
+{% load i18n %}
 {% block title %}
     Post a Job
 {% endblock %}
+
+
+{% load static %}
+
+<script type="text/javascript" src="{% static 'admin/js/vendor/select2/i18n' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/core.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/vendor/jquery/jquery.js' %}"></script>
+<script type="text/javascript" src="{% static 'admin/js/jquery.init.js' %}"></script>
+
+{{ form.media }}
+
+<link rel="stylesheet" type="text/css" href="{%static 'admin/css/base.css'%}"/>
+<link rel="stylesheet" type="text/css" href="{%static 'admin/css/widgets.css'%}"/>
 
 {% block content %}
 

@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import authenticate
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
 from accounts.models import User
 
@@ -111,14 +111,16 @@ class EmployerRegistrationForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super(EmployerRegistrationForm, self).__init__(*args, **kwargs)
 
-        self.fields['password1'] = forms.CharField(label='Password',widget=forms.PasswordInput)
+        self.fields['password1'] = forms.CharField(label='Password', widget=forms.PasswordInput)
 
         self.fields['first_name'].label = "First Name"
         self.fields['last_name'].label = "Last Name"
         self.fields['password1'].label = "Password"
         self.fields['password2'].label = "Confirm Password"
         self.fields['company_name'].label = "Company Name"
+        self.fields['company_name'].required = True
         self.fields['company_address'].label = "Company Address"
+        self.fields['company_address'].required = True
 
 
         self.fields['first_name'].widget.attrs.update(
@@ -215,3 +217,39 @@ class UserLoginForm(forms.Form):
         return self.user
 
 
+class UpdateEmployerForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(UpdateEmployerForm, self).__init__(*args, **kwargs)
+
+        #self.fields['password1'] = forms.CharField(label='Password', widget=forms.PasswordInput)
+
+        self.fields['first_name'].label = "First Name"
+        self.fields['last_name'].label = "Last Name"
+        self.fields['company_name'].label = "Company Name"
+        self.fields['company_name'].required = True
+        self.fields['company_address'].label = "Company Address"
+        self.fields['company_address'].required = True
+
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'company_name', 'company_address']
+        exclude = ('email', 'password')
+
+
+class UpdateEmployeeForm(forms.ModelForm):
+
+    def __init__(self, *args, **kwargs):
+        super(UpdateEmployeeForm, self).__init__(*args, **kwargs)
+
+        self.fields['first_name'].label = "First Name"
+        self.fields['last_name'].label = "Last Name"
+        self.fields['user_link'].label = "LinkedIn URL"
+        self.fields['user_link'].required = True
+
+
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'user_link']
+        exclude = ('email', 'password')

@@ -32,7 +32,8 @@ Job details
     <div class="col-12 col-md-6 ml-13 mt-6">
         <h3>Category: {{ job.job_category }}</h3>
         <h5>Last date: {{ job.last_date|date }}</h5>
-        <h5 class="text-info">Salary: {% if job.salary > 0 %} {{ job.salary }}/Monthly {% else %} Negotiable {% endif %} </h5>
+        <h5 class="text-info">Salary: {% if job.job_salary > 0 %} {{ job.job_salary }}/Monthly {% else %} Negotiable {% endif %} </h5>
+        <h6 class="" style="font-color:blue">Location: {{ job.job_location }} </h6>
         <blockquote class="blockquote">
             <p style="font-size:16px">{{ job.job_description }}</p>
         </blockquote>
@@ -91,18 +92,31 @@ Job details
             {% endif %}
         </div>
         {%else%}
+        <div>
+            <a href="{%url 'jobs:update-job' job.id%}"><button class="btn btn-outline-white-primary active">Update This Job</button></a>
+            <a href="{%url 'jobs:delete-job' job.id%}"><button class="btn btn-outline-white-primary">Delete This Job</button></a>
+            <br><br>
+        </div>
+        {%comment%}
+        <div class="mb-8">
+            <a href="{%url 'jobs:update-job' job.id%}"><button class="btn btn-outline-white-primary">View Job Applicants</button></a>
+            <br><br>
+        </div>
+        {%endcomment%}
         <h4>Applicants:</h4>
         <table class="ml-4 mb-8">
             <tr>
                 <td style="padding-right:150px"><h5>Name</h5></td>
                 <td><h5>Email ID</h5></td>
-                <td><h5>Profile Score</h5></td>
+                <td  style="padding-left:80px"><h5>Profile Score</h5></td>
+                <td  style="padding-left:80px"><h5>LinkedIn Profile</h5></td>
             </tr>
             {%for app in apps%}
             <tr>
-                <td>{{app.user.last_name}}, {{app.user.first_name}}</td>
-                <td>{{app.user.email}}</td>
-                <td><h6 style="align:center">{{app.score}}</h6></td>
+                <td  style="padding-left:10px">{{app.user.last_name}}, {{app.user.first_name}}</td>
+                <td  style="padding-left:10px">{{app.user.email}}</td>
+                <td  style="padding-left:150px">{{app.score}}</td>
+                <td  style="padding-left:150px">{{app.user.user_link}}</td>
             </tr>
             {%endfor%}
         </table>

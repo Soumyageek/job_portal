@@ -25,8 +25,8 @@ class User(AbstractUser):
                                   'unique': "A profile user with same email already exists in application.",
                               })
 
-    company_name = models.CharField(max_length=20, default="")
-    company_address = models.CharField(max_length=30, default="")
+    company_name = models.CharField(max_length=20, null=True, blank=True)
+    company_address = models.CharField(max_length=30, null=True, blank=True)
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
