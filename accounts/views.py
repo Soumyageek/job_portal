@@ -61,7 +61,7 @@ class UpdateEmployerView(LoginRequiredMixin, IsUserEmployer, FormView):
             user = form.save(commit=False)
             user.save()
             messages.success(request, 'The profile has been updated successfully!')
-            return redirect('accounts:login')
+            return redirect('accounts:update-employer')
         else:
             return render(request, self.template_name, {'form': form})
 
@@ -89,7 +89,7 @@ class UpdateEmployeeView(LoginRequiredMixin, IsUserEmployee, FormView):
             user = form.save(commit=False)
             user.save()
             messages.success(request, 'The profile has been updated successfully!')
-            return redirect('accounts:login')
+            return redirect('accounts:update-employee')
         else:
             return render(request, self.template_name, {'form': form})
 
