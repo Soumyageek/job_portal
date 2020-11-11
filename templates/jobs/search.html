@@ -130,8 +130,9 @@
                                                 <h4 class="job__title">
                                                         <a href="{%url 'jobs:job-details' job.id%}">{{ job.job_title }}</a></h4>
                                                 <p class="job__company">
-                                                    {{ job.company_name }}
+                                                    {{ job }}
                                                 </p>
+                                                <p>hello</p>
                                                 <p>
                                                     {{ job.job_description|truncatechars:70 }}
                                                 </p>

@@ -8,6 +8,8 @@ from django.http import HttpResponseRedirect, Http404
 from django.urls import reverse_lazy
 from django.contrib import messages
 from jobs.forms import CreateJobForm, ApplyJobForm
+
+from scraping.scrape_person import Linkedin
 from ..employer.views import IsUserEmployee
 from scraping import scrape_person
 
@@ -33,8 +35,9 @@ class ApplyJobView(LoginRequiredMixin, IsUserEmployee, CreateView):
         if form.is_valid():
             form.save()
             application=Applicant.objects.filter(job=Job.objects.get(id=job_id), user=request.user).first()
-            score = scrape_person.get_score(skills_required = Job.objects.get(id=job_id).job_category, linkedin_url=request.user.user_link)
-            application.score = score # Scraping and ML logic goes here.
+            linkdin = Linkedin(linkdin_url=request.user.user_link)
+            score = linkdin.get_score(employee_skills=Job.objects.get(id=job_id).job_category)
+            application.score = score  # Scraping and ML logic goes here.
             application.save()
             messages.success(request, 'You have successfully applied for this job.')
             return redirect('jobs:job-details', job_id=job_id)
