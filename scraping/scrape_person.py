@@ -61,6 +61,48 @@ class Linkedin:
                 skill = self.driver.find_element_by_xpath(f"{skill_prefix_xpath}/a/span").text
                 print(f"Skill: {skill}")
             skills_lst.append(skill)
+        max_wait = 1
+        while max_wait <= 10:
+            try:
+                print("clicking show more")
+                self.driver.execute_script("window.scrollBy(0,500)")
+                self.driver.find_element_by_xpath('//button[@data-control-name="skill_details"]').click()
+                time.sleep(1)
+                print("clicked show more")
+
+                break
+            except Exception as e:
+                time.sleep(1)
+                max_wait += 1
+
+        max_wait = 1
+        while max_wait <= 10:
+            try:
+                print("checking Tools & Technologies")
+                self.driver.execute_script("window.scrollBy(0,500)")
+                self.driver.find_element_by_xpath('//h3[text()="Tools & Technologies"]')
+                print("Tools & Technologies attached to Dom")
+
+                break
+            except Exception as e:
+                time.sleep(1)
+                max_wait += 1
+
+        total_section = len(
+            self.driver.find_elements_by_xpath("//ol[@class='pv-skill-category-list__skills_list list-style-none']"))
+
+        for section in range(1, total_section + 1):
+            sub_skills_prefix_xpath = f"(//ol[@class='pv-skill-category-list__skills_list list-style-none'])[{section}]/li"
+            total_tools_and_tech = len(self.driver.find_elements_by_xpath(sub_skills_prefix_xpath))
+            for tools_and_tech in range(1, total_tools_and_tech + 1):
+                sub_skill_prefix_xpath = f"{sub_skills_prefix_xpath}[{tools_and_tech}]/div/div[2]/p"
+                try:
+                    tools_and_tech_text = self.driver.find_element_by_xpath(f"{sub_skill_prefix_xpath}/a/span").text
+                    print(f"sub skill: {tools_and_tech_text}")
+                except:
+                    tools_and_tech_text = self.driver.find_element_by_xpath(f"{sub_skill_prefix_xpath}/span").text
+                    print(f"sub skill: {tools_and_tech_text}")
+                skills_lst.append(tools_and_tech_text)
         print("linkdin skills_lst", skills_lst)
         print("employeer skills_lst", employee_skills)
         # skills_lst = ['Java', 'Python', 'Selenium WebDriver']
@@ -76,7 +118,7 @@ class Linkedin:
                         score = lev.ratio(emp_skill_format, link_skill_format) * 100
                         score_list.append(score)
             print("score_list", score_list)
-            return sum(score_list) / len(employee_skills.split(','))
+            return sum(score_list) / len(score_list)
         else:
             return 0
 

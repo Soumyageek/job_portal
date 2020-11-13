@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth import authenticate
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.core.exceptions import ValidationError
 
 from accounts.models import User
 
@@ -8,7 +9,7 @@ GENDER_CHOICES = (
     ('male', 'Male'),
     ('female', 'Female'))
 
-# Sign up page for Job seeker 
+# Sign up page for Job seeker
 class EmployeeRegistrationForm(UserCreationForm):
 
     def __init__(self, *args, **kwargs):
@@ -222,7 +223,8 @@ class UpdateEmployerForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super(UpdateEmployerForm, self).__init__(*args, **kwargs)
 
-        #self.fields['password1'] = forms.CharField(label='Password', widget=forms.PasswordInput)
+        self.fields['password1'] = forms.CharField(label='Password', widget=forms.PasswordInput)
+        self.fields['password2'] = forms.CharField(label='Password', widget=forms.PasswordInput)
 
         self.fields['first_name'].label = "First Name"
         self.fields['last_name'].label = "Last Name"
@@ -230,26 +232,73 @@ class UpdateEmployerForm(forms.ModelForm):
         self.fields['company_name'].required = True
         self.fields['company_address'].label = "Company Address"
         self.fields['company_address'].required = True
-
+        self.fields['password1'].label = " Current Password"
+        self.fields['password2'].label = "New Password"
 
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'company_name', 'company_address']
         exclude = ('email', 'password')
 
+    def clean_password1(self):
+        if not self.instance.check_password(self.data['password1']):
+            raise forms.ValidationError('The current password was incorrect!')
+
+    def clean_password2(self):
+        password = self.data['password2']
+        # if (len(password) > 8) and password.contains(r'^[a-zA-Z]*$') and password.contains(r'^[0-9]*$'):
+        if not (len(password) >= 8):
+            raise forms.ValidationError('The password is weak!')
+
+
+    def save(self, commit=True):
+        user = super(UpdateEmployerForm, self).save(commit=False)
+        user.is_employer = True
+        user.is_employee = False
+        user.user_link = "NA"
+        user.set_password(self.data['password2'])
+        if commit:
+            user.save()
+        return user
+
+
 
 class UpdateEmployeeForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super(UpdateEmployeeForm, self).__init__(*args, **kwargs)
+        self.fields['password1'] = forms.CharField(label='Password', widget=forms.PasswordInput)
+        self.fields['password2'] = forms.CharField(label='Password', widget=forms.PasswordInput)
 
         self.fields['first_name'].label = "First Name"
         self.fields['last_name'].label = "Last Name"
         self.fields['user_link'].label = "LinkedIn URL"
         self.fields['user_link'].required = True
+        self.fields['password1'].label = " Current Password"
+        self.fields['password2'].label = "New Password"
 
 
     class Meta:
         model = User
         fields = ['first_name', 'last_name', 'user_link']
         exclude = ('email', 'password')
+
+    def clean_password1(self):
+        if not self.instance.check_password(self.data['password1']):
+            raise forms.ValidationError('The current password was incorrect!')
+
+    def clean_password2(self):
+        password = self.data['password2']
+        # if (len(password) > 8) and password.contains(r'^[a-zA-Z]*$') and password.contains(r'^[0-9]*$'):
+        if not (len(password) >= 8):
+            raise forms.ValidationError('The password is weak!')
+
+
+    def save(self, commit=True):
+        user = super(UpdateEmployeeForm, self).save(commit=False)
+        user.is_employer = False
+        user.is_employee = True
+        user.set_password(self.data['password2'])
+        if commit:
+            user.save()
+        return user

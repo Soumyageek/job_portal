@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.core.validators import RegexValidator
 
 from accounts.privilege import UserManagement
 
@@ -7,11 +8,13 @@ GENDER_CHOICES = (
     ('male', 'Male'),
     ('female', 'Female'))
 
+alphabets = RegexValidator(r'^[a-zA-Z]*$', 'Numbers and Special Characters are not allowed!')
+
 
 class User(AbstractUser):
     username = None
-    first_name = models.CharField(max_length=20)
-    last_name = models.CharField(max_length=20)
+    first_name = models.CharField(max_length=20, validators=[alphabets])
+    last_name = models.CharField(max_length=20, validators=[alphabets])
     # user_role = models.CharField(max_length=12, error_messages={
     #     'required': "please provide user role"
     # })
