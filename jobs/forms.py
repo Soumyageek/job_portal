@@ -98,4 +98,11 @@ class CreateJobForm(ModelForm):
 class ApplyJobForm(ModelForm):
     class Meta:
         model = Applicant
-        fields = ('user', 'job')
+        fields = ('user', 'job', 'lor')
+        widgets = {'user': forms.HiddenInput(), 'job': forms.HiddenInput()}
+
+
+class FileForm(ModelForm):
+    class Meta:
+        model = Applicant
+        fields = ['lor']

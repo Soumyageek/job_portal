@@ -62,6 +62,7 @@ Job details
             {% else %}
             <form action="{% url 'jobs:apply-job' job.id %}" method="post">
                 {% csrf_token %}
+                {{form}}
                 <input type="hidden" name="job" value="{{ job.id }}">
                 <input type="submit" class="btn btn-outline-white-primary" value="Apply for this job"/>
             </form>
@@ -75,10 +76,11 @@ Job details
             {% if is_applied %}
             <input type="button" class="btn btn-outline-white-primary" value="Already applied"/>
             {% else %}
-            <form action="{% url 'jobs:apply-job' job.id %}" method="post">
+            <form action="{% url 'jobs:apply-job' job.id %}" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
-                <input type="file" name="document">
+                {{form}}
                 <input type="hidden" name="job" value="{{ job.id }}">
+                {%comment%}<input type="file" name="lor" id="lor">{%endcomment%}
                 <input type="submit" class="btn btn-outline-white-primary"
                        value="Apply for this job"/>
             </form>
@@ -95,7 +97,7 @@ Job details
         {%else%}
         <div>
             <a href="{%url 'jobs:update-job' job.id%}"><button class="btn btn-outline-white-primary active">Update This Job</button></a>
-            <a href="{%url 'jobs:delete-job' job.id%}"><button class="btn btn-outline-white-primary">Delete This Job</button></a>
+            <a href="{%url 'jobs:delete-job' job.id%}"><button class="btn btn-outline-white-primary active">Delete This Job</button></a>
             <br><br>
         </div>
         {%comment%}
@@ -106,18 +108,20 @@ Job details
         {%endcomment%}
         <h4>Applicants:</h4>
         <table class="ml-4 mb-8">
-            <tr>
+            <tr style="padding-bottom:30px">
                 <td style="padding-right:150px"><h5>Name</h5></td>
                 <td><h5>Email ID</h5></td>
                 <td  style="padding-left:80px"><h5>Profile Score</h5></td>
                 <td  style="padding-left:80px"><h5>LinkedIn Profile</h5></td>
+                <td  style="padding-left:140px"><h5>LOR</h5></td>
             </tr>
             {%for app in apps%}
-            <tr>
-                <td  style="padding-left:10px">{{app.user.last_name}}, {{app.user.first_name}}</td>
+            <tr style="spacing-bottom:30px; padding:20px;">
+                <td  style="padding-left:10px; padding:20px;">{{app.user.last_name}}, {{app.user.first_name}}</td>
                 <td  style="padding-left:10px">{{app.user.email}}</td>
-                <td  style="padding-left:150px">{{app.score}}</td>
-                <td  style="padding-left:150px">{{app.user.user_link}}</td>
+                <td  style="padding-left:100px">{{app.score}}</td>
+                <td  style="padding-left:90px"><a href="{{app.user.user_link}}">Profile Link</a></td>
+                <td  style="padding-left:150px"><a href="{{app.lor.url}}"><img src="{% static 'img/lor.png' %}" alt="Ipsioou"></a></td>
             </tr>
             {%endfor%}
         </table>

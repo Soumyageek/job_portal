@@ -5,6 +5,7 @@ from django.contrib import messages
 from jobs.models import Job, Applicant
 from  jobs.forms import CreateJobForm
 from django.http import Http404
+from jobs.forms import FileForm, ApplyJobForm
 
 
 class IsUserEmployee(UserPassesTestMixin):
@@ -113,12 +114,14 @@ class DeleteJob(LoginRequiredMixin, IsUserEmployer, DeleteView):
         else:
             raise Http404
 
+
 class JobDetailsView(LoginRequiredMixin, DetailView):
     model = Applicant
 
     def get(self, request, job_id):
+        form = ApplyJobForm(initial={'job':Job.objects.get(id=job_id), 'user':request.user})
         context = []
         job = Job.objects.filter(id=job_id).first()
         apps = list(self.model.objects.filter(job=job_id).order_by('-score'))
 
-        return render(request, 'jobs/details.html', {'apps':apps, 'job':job, 'applied_active':'active','posted_active':'active'})
+        return render(request, 'jobs/details.html', {'apps':apps, 'job':job, 'form':form ,'applied_active':'active','posted_active':'active'})

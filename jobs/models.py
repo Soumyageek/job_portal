@@ -33,7 +33,8 @@ class Applicant(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     job = models.ForeignKey(Job, on_delete=models.CASCADE, related_name='job_applicants')
     created_at = models.DateTimeField(default=timezone.now)
-    score =  models.IntegerField(default=0, blank=True, null=True)
+    score = models.IntegerField(default=0, blank=True, null=True)
+    lor = models.FileField(default='lor.txt', upload_to='lor_docs')
 
     class Meta:
         unique_together = ['user', 'job']

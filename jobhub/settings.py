@@ -134,8 +134,8 @@ STATICFILES_DIRS = [
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 
-MEDIA_URL = "/media/"
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+MEDIA_URL = "/files/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "files")
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
